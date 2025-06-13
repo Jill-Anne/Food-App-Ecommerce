@@ -18,7 +18,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
      
-      home: const LoginPage(),
+      home: LoginPage(
+        onTap: () {
+          // Handle the tap event, e.g., navigate to another page
+          print("Login button tapped");
+        },
+      ),
       theme: Provider.of<ThemeProvider>(context).themeData,
       darkTheme: Provider.of<ThemeProvider>(context).isDarkMode
           ? Provider.of<ThemeProvider>(context).themeData
