@@ -9,7 +9,7 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       child: Column(
         children: [
           //app logo
@@ -24,7 +24,7 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(25.0),
             child: Divider(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.inversePrimary,
               thickness: 1,
             ),
           ),
