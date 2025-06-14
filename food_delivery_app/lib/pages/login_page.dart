@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/components/my_button.dart';
 import 'package:food_delivery_app/components/my_textfield.dart';
+import 'package:food_delivery_app/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
-   final void Function()? onTap;
-   LoginPage({super.key, required this.onTap});
+  final void Function()? onTap;
+  LoginPage({super.key, required this.onTap});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -13,6 +14,20 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  // login method
+  void login() {
+    // authentication
+
+    //navigate to home page
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,29 +69,29 @@ class _LoginPageState extends State<LoginPage> {
             //sign in button
             MyButton(
               text: "Sign In",
-              onTap: () {
-                // Handle sign in logic here
-                print("Email: ${emailController.text}");
-                print("Password: ${passwordController.text}");
-              },
+              onTap: login,
             ),
             const SizedBox(height: 25),
             //not a member? register now
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Not a member? ",
+                Text(
+                  "Not a member? ",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
-                  ),),
+                  ),
+                ),
                 const SizedBox(width: 5),
                 GestureDetector(
                   onTap: widget.onTap,
-                  child: Text("Register now",
+                  child: Text(
+                    "Register now",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.bold,
-                    ),),
+                    ),
+                  ),
                 ),
               ],
             ),

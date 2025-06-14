@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/auth/login_or_register.dart';
 import 'package:food_delivery_app/pages/login_page.dart';
 import 'package:food_delivery_app/themes/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -18,12 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
      
-      home: LoginPage(
-        onTap: () {
-          // Handle the tap event, e.g., navigate to another page
-          print("Login button tapped");
-        },
-      ),
+      home: LoginOrRegister(),
+      debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).themeData,
       darkTheme: Provider.of<ThemeProvider>(context).isDarkMode
           ? Provider.of<ThemeProvider>(context).themeData
