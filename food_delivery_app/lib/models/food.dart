@@ -19,11 +19,10 @@ class Food {
 //food categories
 
 enum FoodCategory {
-  pizza,
-  burger,
-  sushi,
-  salad,
-  dessert,
+  breakfast,
+  burgers,
+  drinks,
+  sides,
 }
 
 //food addons
