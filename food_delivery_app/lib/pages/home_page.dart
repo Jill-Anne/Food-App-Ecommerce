@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/components/my_current_location.dart';
 import 'package:food_delivery_app/components/my_description_box.dart';
 import 'package:food_delivery_app/components/my_drawer.dart';
+import 'package:food_delivery_app/components/my_tab_bar.dart';
 import 'package:food_delivery_app/components/mysliver_app_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,18 +12,33 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  //tab controller
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    //initialize the tab controller
+    tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       drawer: MyDrawer(),
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           MySliverAppBar(
-            title: Text(
-              'TITLE', 
-            ),
+            title: MyTabBar(tabController: tabController),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -32,17 +48,30 @@ class _HomePageState extends State<HomePage> {
                   endIndent: 25.0,
                   color: Theme.of(context).colorScheme.secondary,
                 ),
-               //current location
+                //current location
                 MyCurrentLocation(),
-               //description
-               MyDescriptionBox(),
+                //description
+                MyDescriptionBox(),
               ],
             ),
-            
           ),
         ],
-        body: Container(
-          color: Colors.blue,
+        body: TabBarView(
+          controller: tabController,
+          children: [
+            ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) => Text('1st Tab Item $index'),
+            ),
+            ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) => Text('2nd Tab Item $index'),
+            ),
+            ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) => Text('3rd Tab Item $index'),
+            ),
+          ],
         ),
       ),
     );
