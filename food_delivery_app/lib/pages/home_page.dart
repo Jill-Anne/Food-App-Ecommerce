@@ -7,6 +7,7 @@ import 'package:food_delivery_app/components/my_tab_bar.dart';
 import 'package:food_delivery_app/components/mysliver_app_bar.dart';
 import 'package:food_delivery_app/models/food.dart';
 import 'package:food_delivery_app/models/restaurant.dart';
+import 'package:food_delivery_app/pages/food_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -55,13 +56,16 @@ class _HomePageState extends State<HomePage>
           //     categoryMenu[index].name
           //   ),
           // );
-       //   final food = categoryMenu[index];
+          final food = categoryMenu[index];
           return FoodTile(
-            food: categoryMenu[index],
+            food: food,
             onTap: () {
               // Handle food item tap
               // For example, navigate to food details page
-              Navigator.pushNamed(context, '/foodDetails', arguments: categoryMenu[index]);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FoodPage(food: food)));
             },
           );
         },
@@ -74,33 +78,32 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       drawer: MyDrawer(),
       body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          MySliverAppBar(
-            title: MyTabBar(tabController: tabController),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Divider(
-                  indent: 25.0,
-                  endIndent: 25.0,
-                  color: Theme.of(context).colorScheme.secondary,
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                MySliverAppBar(
+                  title: MyTabBar(tabController: tabController),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Divider(
+                        indent: 25.0,
+                        endIndent: 25.0,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      //current location
+                      MyCurrentLocation(),
+                      //description
+                      MyDescriptionBox(),
+                    ],
+                  ),
                 ),
-                //current location
-                MyCurrentLocation(),
-                //description
-                MyDescriptionBox(),
               ],
+          body: Consumer<Restaurant>(
+            builder: (context, restaurant, child) => TabBarView(
+              controller: tabController,
+              children: getFoodInThisCategory(restaurant.menu),
             ),
-          ),
-        ],
-        body: Consumer<Restaurant>(
-          builder: (context, restaurant, child) => TabBarView(
-          controller: tabController,
-          children: getFoodInThisCategory(restaurant.menu),
-        ),
-        )
-      ),
+          )),
     );
   }
 }
