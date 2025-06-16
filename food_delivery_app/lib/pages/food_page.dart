@@ -4,7 +4,12 @@ import 'package:food_delivery_app/models/food.dart';
 
 class FoodPage extends StatefulWidget {
   final Food food;
-  const FoodPage({super.key, required this.food});
+  final Map<Addon, bool> selectedAddons = {};
+  FoodPage({super.key, required this.food}) {
+    for (Addon addon in food.availableAddons) {
+      selectedAddons[addon] = false;
+    }
+  }
 
   @override
   State<FoodPage> createState() => _FoodPageState();
@@ -13,13 +18,16 @@ class FoodPage extends StatefulWidget {
 class _FoodPageState extends State<FoodPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Stack(
+      children: [
+        //scaffold ui
+        Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             //food image
             Image.asset(widget.food.imagePath),
-        
+
             Padding(
               padding: const EdgeInsets.all(25.0),
               child: Column(
@@ -33,7 +41,7 @@ class _FoodPageState extends State<FoodPage> {
                       fontSize: 22,
                     ),
                   ),
-        
+
                   //food price
                   Text(
                     '\$' + widget.food.price.toStringAsFixed(2),
@@ -51,11 +59,11 @@ class _FoodPageState extends State<FoodPage> {
                       fontSize: 18,
                     ),
                   ),
-        
+
                   const SizedBox(height: 10),
                   Divider(color: Theme.of(context).colorScheme.secondary),
                   const SizedBox(height: 10),
-        
+
                   Text(
                     'Add-ons',
                     style: TextStyle(
@@ -80,7 +88,7 @@ class _FoodPageState extends State<FoodPage> {
                       itemCount: widget.food.availableAddons.length,
                       itemBuilder: (context, index) {
                         Addon addon = widget.food.availableAddons[index];
-        
+
                         return CheckboxListTile(
                           title: Text(addon.name),
                           subtitle: Text(
@@ -91,8 +99,12 @@ class _FoodPageState extends State<FoodPage> {
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
-                          value: false,
-                          onChanged: (value) {},
+                          value: widget.selectedAddons[addon],
+                          onChanged: (bool? value) {
+                            setState(() {
+                              widget.selectedAddons[addon] = value!;
+                            });
+                          },
                         );
                       },
                     ),
@@ -101,11 +113,34 @@ class _FoodPageState extends State<FoodPage> {
               ),
             ),
             //button => add to cart
-            MyButton(onTap: (){}, text: "Add to Cart"),
+            MyButton(onTap: () {}, text: "Add to Cart"),
             const SizedBox(height: 25),
           ],
         ),
       ),
+    ),
+
+
+        //back btn
+        SafeArea(
+          child: Opacity(
+            opacity: 0.7,
+            child: Container(
+              margin: const EdgeInsets.only(left: 25.0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(icon: Icon(Icons.arrow_back_ios_rounded),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
