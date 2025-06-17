@@ -6,7 +6,7 @@ import 'package:collection/collection.dart';
 class Restaurant extends ChangeNotifier {
   // list of food menu
 
-  final List<Food> menu = [
+  final List<Food> _menu = [
     //burgers
     Food(
       name: "Butter Burger",
@@ -322,7 +322,8 @@ class Restaurant extends ChangeNotifier {
   /*
     GETTERS
     */
-  //List<Food> get menu = menu;
+  List<Food> get menu => _menu;
+  List<CartItem> get cart => _cart;
 
   /*
     OPERATIONS
